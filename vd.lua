@@ -2,14 +2,14 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local UserInputService = game:GetService("UserInputService")
 
-local speed = 16
-
 UserInputService.InputBegan:Connect(function(input)
 	if input.KeyCode == Enum.KeyCode.V then
-		if speed == 32 then
-			speed = 16
-		else 
-			speed = 32
+		local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+		local Humanoid = Character:WaitForChild("Humanoid") 
+		if Humanoid.WalkSpeed ~= 32 then -- Скорость
+			Humanoid.WalkSpeed = 32
+		else
+			Humanoid.WalkSpeed = 16
 		end
 	end
 end)
@@ -20,9 +20,6 @@ while true do
 		game.Workspace.Camera.FieldOfView = 110
 	end
 	--]]
-	local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-	local Humanoid = Character:WaitForChild("Humanoid") 
-	Humanoid.WalkSpeed = speed
 	
 	for _, v in Players:GetPlayers() do -- Игроки
 		local character = v.Character
@@ -74,7 +71,7 @@ while true do
 				if v.Name == "Generator" and not v:FindFirstChild("Highlight") then
 					local Highlight = Instance.new("Highlight")
 					Highlight.FillColor = Color3.new(1, 0.564706, 0.0431373)
-					Highlight.OutlineColor = Color3.new(0, 0.764706, 1)
+					Highlight.OutlineColor = Color3.new(1, 0.564706, 0.0431373)
 					Highlight.OutlineTransparency = 0.3
 					Highlight.Adornee = v
 					Highlight.Parent = v
@@ -89,5 +86,5 @@ while true do
 			Highlight.Parent = v
 		end
 	end
-	wait(1)
+	wait(0.2)
 end
